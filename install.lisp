@@ -1,13 +1,12 @@
 (progn
-  (ros:include "util")
-  (ros:include "util-install"))
+  (roswell:include "util")
+  (roswell:include "util-install"))
 
-(defpackage :jscl.3673977832
-  (:use :cl :ros.install :ros.util))
-(in-package :jscl.3673977832)
+(defpackage :roswell.install.jscl
+  (:use :cl :roswell.install :roswell.util))
+(in-package :roswell.install.jscl)
 
 (defun jscl-get (argv)
-  (format *error-output* "install from github~%")
   (clone-github "davazp" "jscl" :path "local-projects")
   (cons t argv))
 
@@ -19,6 +18,9 @@
     (funcall (read-from-string "jscl:bootstrap")))
   (cons t argv))
 
-(push `("jscl" . ,(list 'jscl-get
-                        'jscl-install))
-      ros.install::*install-cmds*)
+(defun jscl (type)
+  (case type
+    (:help '(jscl-help)) ;; not yet
+    (:install (list 'jscl-get
+                    'jscl-install))
+    (:list 'jscl-get-version))) ;; not yet
