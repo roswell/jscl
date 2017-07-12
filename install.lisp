@@ -3,16 +3,18 @@
   (roswell:include "util-install"))
 
 (defpackage :roswell.install.jscl
-  (:use :cl :roswell.install :roswell.util))
+  (:use :cl :roswell.install :roswell.util :roswell.jscl.info))
 (in-package :roswell.install.jscl)
 
 (defun jscl-get (argv)
-  (clone-github "davazp" "jscl" :path "local-projects")
+  (clone-github *user* *repo* :path "local-projects")
   (cons t argv))
 
 (defun jscl-install (argv)
   (let ((*standard-output* (make-broadcast-stream))
-        (*default-pathname-defaults* (merge-pathnames "local-projects/davazp/jscl/" (homedir))))
+        (*default-pathname-defaults* (merge-pathnames (format nil "local-projects/~A/~A/"
+                                                              *user* *repo*)
+                                                      (homedir))))
     (load (merge-pathnames "jscl.lisp" *default-pathname-defaults*))
     (format *error-output* "jscl load done.~%")
     (funcall (read-from-string "jscl:bootstrap")))

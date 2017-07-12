@@ -1,5 +1,5 @@
 (defpackage :roswell.run.jscl
-  (:use :cl :roswell.util))
+  (:use :cl :roswell.util :roswell.jscl.info))
 (in-package :roswell.run.jscl)
 
 (defun jscl (script rest)
@@ -18,4 +18,6 @@
             (format *error-output* "node not found")
             (ros:quit 1))
           (format *error-output* "ros Options are not supported yet~%")
-          (ros:exec `(,node ,(namestring (merge-pathnames "local-projects/davazp/jscl/repl-node.js" (homedir)))))))))
+          (ros:exec `(,node ,(namestring (merge-pathnames (format nil "local-projects/~A/~A/repl-node.js"
+                                                                  *user* *repo*)
+                                                          (homedir)))))))))

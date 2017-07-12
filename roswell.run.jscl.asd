@@ -3,5 +3,6 @@
   :author "SANO Masatoshi"
   :license "MIT"
   :depends-on ()
-  :components ((:file "run"))
+  :components ((:file "run" :depends-on ("info"))
+               (:file "info"))
   :description "run jscl")
